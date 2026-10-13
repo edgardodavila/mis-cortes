@@ -3,149 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mis Cortes</title>
+    <title>Control Barbería</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Cortes">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/192/007aff/ffffff?text=Corte">
+    <meta name="apple-mobile-web-app-title" content="Barbería">
     
     <style>
+        :root { --primary: #1a1a1a; --accent: #d32f2f; --bg: #f5f5f7; --card: #ffffff; }
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #f2f2f7; 
-            margin: 0; 
-            padding: 20px; 
-            color: #000; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg); margin: 0; padding: 20px; color: var(--primary); 
             -webkit-tap-highlight-color: transparent;
         }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { margin: 0; font-size: 26px; color: var(--primary); }
         .card { 
-            background: #fff; 
-            border-radius: 12px; 
-            padding: 16px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            background: var(--card); border-radius: 12px; padding: 16px; 
+            margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
         }
-        h1 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 20px; }
-        label { display: block; font-size: 14px; font-weight: 600; margin-top: 12px; margin-bottom: 4px; color: #3c3c43; }
-        select, input { 
-            width: 100%; 
-            box-sizing: border-box; 
-            padding: 12px; 
-            border: 1px solid #c7c7cc; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            background-color: #fff; 
+        label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px 0; color: #555; }
+        input, select { 
+            width: 100%; box-sizing: border-box; padding: 12px; 
+            border: 1px solid #ddd; border-radius: 8px; font-size: 16px; 
         }
         button { 
-            width: 100%; 
-            background-color: #007aff; 
-            color: white; 
-            border: none; 
-            padding: 14px; 
-            border-radius: 10px; 
-            font-size: 16px; 
-            font-weight: 600; 
-            margin-top: 20px; 
-            cursor: pointer; 
+            width: 100%; background-color: var(--primary); color: white; 
+            border: none; padding: 14px; border-radius: 8px; font-size: 16px; 
+            font-weight: 600; margin-top: 20px; cursor: pointer; 
         }
-        button:active { background-color: #005bb5; }
-        .history-item { border-bottom: 1px solid #e5e5ea; padding: 12px 0; }
-        .history-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .history-date { font-size: 12px; color: #8e8e93; margin-bottom: 4px; }
-        .history-title { font-size: 16px; font-weight: 600; margin: 0 0 4px 0; }
-        .history-details { font-size: 14px; color: #3c3c43; display: flex; justify-content: space-between; }
+        button:active { background-color: #333; }
+        .cliente-item { 
+            border-left: 4px solid var(--primary); padding: 12px; 
+            background: #fafafa; border-radius: 0 8px 8px 0; margin-bottom: 12px;
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .cliente-header { display: flex; justify-content: space-between; align-items: center; }
+        .cliente-nombre { font-size: 16px; font-weight: bold; margin: 0; }
+        .cliente-fecha { font-size: 12px; color: #666; }
+        .btn-whatsapp { 
+            background-color: #25D366; color: white; text-align: center; 
+            text-decoration: none; padding: 10px; border-radius: 6px; 
+            font-weight: bold; font-size: 14px; display: block; 
+        }
+        .btn-whatsapp:active { background-color: #1ebe57; }
+        .delete-btn { color: var(--accent); font-size: 12px; text-decoration: none; text-align: right; margin-top: 5px; display: block;}
     </style>
 </head>
 <body>
 
-    <h1>Mis Cortes</h1>
+    <div class="header">
+        <h1>💈 Control de Clientes</h1>
+    </div>
 
     <div class="card">
-        <label>Tipo de Corte</label>
-        <select id="tipo">
-            <option>Corte normal</option>
-            <option>Corte pelo y barba</option>
-            <option>Corte pelo, barba y cejas</option>
-        </select>
+        <label>Nombre del Cliente</label>
+        <input type="text" id="nombre" placeholder="Ej. Carlos Martínez">
 
-        <label>Costo (Lempiras)</label>
-        <input type="number" id="costo" placeholder="Ej. 150" inputmode="numeric">
+        <label>Teléfono (Sin código de área)</label>
+        <input type="tel" id="telefono" placeholder="Ej. 99887766" inputmode="numeric">
 
-        <label>Próximo corte en</label>
+        <label>Días para el próximo corte</label>
         <select id="plazo">
             <option value="15">15 días</option>
             <option value="21">21 días</option>
             <option value="30" selected>30 días</option>
-            <option value="45">45 días</option>
         </select>
 
-        <button onclick="guardarRegistro()">Registrar</button>
+        <button onclick="guardarCliente()">Registrar Visita</button>
     </div>
 
     <div class="card">
-        <h2 style="font-size: 18px; margin-top: 0;">Historial</h2>
-        <div id="historial-lista"></div>
+        <h2 style="font-size: 18px; margin-top: 0; margin-bottom: 15px;">Agenda de Recordatorios</h2>
+        <div id="lista-clientes"></div>
     </div>
 
     <script>
-        function guardarRegistro() {
-            const tipo = document.getElementById('tipo').value;
-            const costo = document.getElementById('costo').value;
+        // Configuración regional y del negocio
+        const CODIGO_PAIS = "504"; 
+        const NOMBRE_BARBERIA = "Tu Barbería"; // <-- ¡CAMBIA ESTO POR EL NOMBRE DE TU BARBERÍA!
+
+        function guardarCliente() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const telefonoRaw = document.getElementById('telefono').value.trim();
             const plazo = parseInt(document.getElementById('plazo').value);
 
-            if (!costo) {
-                alert("Por favor ingresa el costo del corte.");
+            if (!nombre || !telefonoRaw) {
+                alert("Ingresa el nombre y el teléfono del cliente.");
                 return;
             }
+
+            // Limpiar número (quitar espacios o guiones)
+            const telefono = telefonoRaw.replace(/\D/g, '');
 
             const fechaActual = new Date();
             const fechaProximo = new Date();
             fechaProximo.setDate(fechaActual.getDate() + plazo);
 
-            const opcionesFecha = { year: 'numeric', month: 'short', day: 'numeric' };
-
-            const registro = {
-                fecha: fechaActual.toLocaleDateString('es-HN', opcionesFecha),
-                tipo: tipo,
-                costo: costo,
-                proximo: fechaProximo.toLocaleDateString('es-HN', opcionesFecha)
+            const cliente = {
+                id: Date.now(),
+                nombre: nombre,
+                telefono: telefono,
+                fechaUltimo: fechaActual.toLocaleDateString('es-HN'),
+                fechaProximo: fechaProximo.toLocaleDateString('es-HN')
             };
 
-            let historial = JSON.parse(localStorage.getItem('historial_cortes')) || [];
-            historial.unshift(registro);
-            localStorage.setItem('historial_cortes', JSON.stringify(historial));
+            let clientes = JSON.parse(localStorage.getItem('barberia_clientes')) || [];
+            clientes.unshift(cliente);
+            localStorage.setItem('barberia_clientes', JSON.stringify(clientes));
 
-            document.getElementById('costo').value = '';
-            mostrarHistorial();
-            alert(`¡Guardado! Tu próximo corte toca aprox el ${registro.proximo}`);
+            document.getElementById('nombre').value = '';
+            document.getElementById('telefono').value = '';
+            mostrarClientes();
         }
 
-        function mostrarHistorial() {
-            const historial = JSON.parse(localStorage.getItem('historial_cortes')) || [];
-            const lista = document.getElementById('historial-lista');
+        function eliminarCliente(id) {
+            if(confirm("¿Eliminar este registro?")) {
+                let clientes = JSON.parse(localStorage.getItem('barberia_clientes')) || [];
+                clientes = clientes.filter(c => c.id !== id);
+                localStorage.setItem('barberia_clientes', JSON.stringify(clientes));
+                mostrarClientes();
+            }
+        }
+
+        function mostrarClientes() {
+            const clientes = JSON.parse(localStorage.getItem('barberia_clientes')) || [];
+            const lista = document.getElementById('lista-clientes');
             lista.innerHTML = '';
 
-            if (historial.length === 0) {
-                lista.innerHTML = '<p style="color: #8e8e93; font-size: 14px; text-align: center;">No hay registros aún.</p>';
+            if (clientes.length === 0) {
+                lista.innerHTML = '<p style="color: #888; font-size: 14px; text-align: center;">No hay clientes registrados.</p>';
                 return;
             }
 
-            historial.forEach(item => {
+            clientes.forEach(c => {
+                // Mensaje actualizado con nombre del cliente y de la barbería
+                const mensaje = `¡Hola ${c.nombre}! 💈 Te escribimos de ${NOMBRE_BARBERIA} para recordarte que ya se acerca la fecha de tu próximo corte (${c.fechaProximo}). ¡Escríbenos para agendar tu cita y mantener ese estilo impecable!`;
+                
+                const urlWhatsapp = `https://wa.me/${CODIGO_PAIS}${c.telefono}?text=${encodeURIComponent(mensaje)}`;
+
                 const div = document.createElement('div');
-                div.className = 'history-item';
+                div.className = 'cliente-item';
                 div.innerHTML = `
-                    <div class="history-date">Corte: ${item.fecha} | Próximo: ${item.proximo}</div>
-                    <div class="history-title">${item.tipo}</div>
-                    <div class="history-details">
-                        <span>Costo:</span>
-                        <span style="font-weight: 600;">L. ${item.costo}</span>
+                    <div class="cliente-header">
+                        <p class="cliente-nombre">${c.nombre}</p>
+                        <p class="cliente-fecha">Próximo: <b>${c.fechaProximo}</b></p>
                     </div>
+                    <a href="${urlWhatsapp}" class="btn-whatsapp" target="_blank">
+                        💬 Enviar WhatsApp
+                    </a>
+                    <a href="#" class="delete-btn" onclick="eliminarCliente(${c.id}); return false;">Eliminar registro</a>
                 `;
                 lista.appendChild(div);
             });
         }
 
-        mostrarHistorial();
+        mostrarClientes();
     </script>
 </body>
 </html>
